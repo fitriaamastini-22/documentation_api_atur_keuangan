@@ -1,0 +1,266 @@
+FORMAT: 1A
+HOST: https://localhost:8000/
+
+# atur_keuangan
+
+Berisi dokumentasi API aplikasi atur_keuangan.
+
+## Users [/api_atur_keuangan/users]
+
+Berisi API terkait dengan tabel users
+
+### Sign in [POST /api_atur_keuangan/users/signin]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "email": "amastini22@gmail.com",
+                "password": 1234
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": true,
+                "token": "e32kugdiu238cf238hc0923j9skmqecjvecyvuew",
+                "user": [
+                    "id": 1
+                ]
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "Error retrieving user email amastini22@gmail.com"
+            }
+            
+### Sign up [POST /api_atur_keuangan/users/signup]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "email": "amastini22@gmail.com",
+                "password": 1234
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "password": "$2b$10$1W7gKwMVmM7CJT7i7dpGru/zvFTI9vfqikc9U44GCUfZwR07t6Ox2",
+                "email": "amastini22@gmail.com",
+                "updatedAt": "2015-08-05T08:40:51.620Z",
+                "createdAt": "2015-08-05T08:40:51.620Z",
+            }
+
+### Upload Photo Identity [POST /api_atur_keuangan/users/uploadidentity/{id}]
+
++ Parameters
+
+    + id (number) - ID User
+    
++ Request (application/json)
+
+    + Body
+    
+            {
+                "files":[
+                    "photo": {
+                        "name": "360px-Cute_Monkey_cropped.jpg",
+                        "mimetype": "image/jpeg",
+                        "size": 48614
+                    },
+                ]
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": true,
+                "message": "Photo post file is uploaded",
+                "data": {
+                    "name": "360px-Cute_Monkey_cropped.jpg",
+                    "rename" : "1-360px-Cute_Monkey_cropped.jpg",
+                    "mimetype": "image/jpeg",
+                    "size": 48614
+                }
+            }
+            
+### Reset Password [POST /api_atur_keuangan/users/resetpassword]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "email": "amastini22@gmail.com"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": true,
+                "message": "Your password has been reset",
+                "data": {
+                    "email": "amastini22@gmail.com",
+                    "new_password" : "x2t8HBVo",
+                }
+            }
+            
+## Order [/api_atur_keuangan/orders]
+
+### Create [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            token: <Token anda didapat ketika melakukan sign-in>
+    
+    + Body
+    
+            {
+                "nama_kegiatan": "Makan Bakso",
+                "tanggal: "13-08-2020",
+                "harga": 20000,
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "nama_kegiatan": "Makan Bakso",
+                "tanggal: "13-08-2020",
+                "harga": 20000,
+                "struk": "-", 
+                "updatedAt": "2015-08-05T08:40:51.620Z",
+                "createdAt": "2015-08-05T08:40:51.620Z",
+            }
+            
+### List of Orders [GET /api_atur_keuangan/orders{?tanggal}]
+
++ Parameters
+
+    + tanggal (optional) - Filter By Date
+
++ Request (application/json)
+
+    + Headers
+
+            token: <Token anda didapat ketika melakukan sign-in>
+    
+    + Body
+    
+            {
+                "nama_kegiatan": "Makan Bakso",
+                "tanggal: "13-08-2020",
+                "harga": 20000,
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 1,
+                    "nama_kegiatan": "Makan Bakso",
+                    "tanggal: "13-08-2020",
+                    "harga": 20000,
+                    "struk": "-", 
+                    "updatedAt": "2015-08-05T08:40:51.620Z",
+                    "createdAt": "2015-08-05T08:40:51.620Z",
+                },
+                {
+                    "id": 2,
+                    "nama_kegiatan": "Makan Sushi",
+                    "tanggal: "13-08-2020",
+                    "harga": 200000,
+                    "struk": "-", 
+                    "updatedAt": "2015-08-05T08:40:51.620Z",
+                    "createdAt": "2015-08-05T08:40:51.620Z",
+                },
+            ]
+            
+### Edit Order [POST /api_atur_keuangan/orders/editorder]
+
++ Request (application/json)
+
+    + Headers
+
+            token: <Token anda didapat ketika melakukan sign-in>
+    
+    + Body
+    
+            {
+                "nama_kegiatan": "Makan Bakso",
+                "tanggal: "13-08-2020",
+                "harga": 20000,
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": true,
+                "message": "Your order has been updated",
+                "data": {
+                    "id": 3,
+                    "nama_kegiatan": "Nonton konser Hypnosis Mic",
+                    "tanggal": "14-08-2020",
+                    "harga": 800000,
+                }
+            }
+
+### Upload Struk [POST /api_atur_keuangan/users/image-photo/{id}/{nama_kegiatan}]
+
++ Parameters
+
+    + id (number) - ID User
+    + nama_kegiatan (string) - Nama Kegiatan Pemesanan
+    
++ Request (application/json)
+
+    + Body
+    
+            {
+                "files":[
+                    "photo": {
+                        "name": "360px-Cute_Monkey_cropped.jpg",
+                        "mimetype": "image/jpeg",
+                        "size": 48614
+                    },
+                ]
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": true,
+                "message": "Photo post file is uploaded",
+                "data": {
+                    "name": "360px-Cute_Monkey_cropped.jpg",
+                    "rename" : "1-360px-Cute_Monkey_cropped.jpg",
+                    "mimetype": "image/jpeg",
+                    "size": 48614
+                }
+            }
